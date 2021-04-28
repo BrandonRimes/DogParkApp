@@ -1,8 +1,9 @@
 from django.db import models
 
 class Park(models.Model):
-    name = models.CharField(max_length=50)
-    website = models.URLField()
+    title = models.CharField(max_length=50)
+    lat = models.FloatField()
+    lng = models.FloatField()
 
     def __str__(self):
-        return f'{self.name}'
+        return f'{self.title}'
