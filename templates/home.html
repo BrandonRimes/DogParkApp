@@ -14,8 +14,15 @@
     <title>Puppub</title>
 </head>
 <body>
+    {% csrf_token %}
+    <div id="cursor">
+        <img id="ball" src="static/images/tennisballdraw.png">
+    </div>
     <header>
-        <h1 id="title">Pup Pub</h1>
+        <div id="logo">
+            <img id="hydrant" src="static/images/hydrant-doodle.png">
+            <h1 id="title">Pup Pub</h1>
+        </div>
         <div id="user-info">
             {% if user.is_authenticated %}
             <h2>Welcome {{ user.username }}!</h2>
@@ -27,30 +34,21 @@
         </div>
     </header>
     <main>
-<<<<<<< HEAD
         <div id="app">
-
+            <div id="list">
+                <div class="parkslisted" v-for="park in parks" :key="park.id">
+                    <hr>
+                    <div class="parklistview">
+                        <h3>[[ park.title ]]</h3>
+                    </div>
+                    <hr>
+                </div>
+            </div>
             <div id="map"></div>
-
         </div>
+        <script src="{% static 'js/cursor.js' %}"></script>
         <script src="{% static 'js/secrets.js' %}"></script>
         <script src="{% static 'js/map.js' %}"></script>
-        {% comment %} <script
-            src="https://maps.googleapis.com/maps/api/js?key=api_key&libraries=places&callback=initMap" async defer>
-        </script> {% endcomment %}
-=======
-        {% if user.is_authenticated %}
-        <h2>Welcome {{ user.username }}!</h2>
-        <p><a href="{% url 'logout' %}">Logout</a><p>
-        {% else %}
-        <h2>Welcome, Human!</h2>
-        <p>You are not logged in. <a href="{% url 'login' %}">Login</a> <a href="{% url 'users:signup' %}">Sign Up</a></p>
-        {% endif %}
-        <div id="map"></div>
-        <script
-            src="https://maps.googleapis.com/maps/api/js?key=&libraries=places&callback=initMap" async>
-        </script>
->>>>>>> f9cd3bf3ab9e425238e87501530b7f681fa1e642
     </main>
     <footer>
     </footer>

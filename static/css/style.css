@@ -7,37 +7,59 @@
 html, body, main {
     height: 100%;
     font-family: averia serif libre;
+    cursor: none;
+}
+
+#cursor {
+    width: 25px;
+    height: 25px;
+    position: absolute;
+    top: 7em;
+    left: 4.5em;
+    transform: translate(-50%,-50%);
+    pointer-events: none;
+}
+
+#ball {
+    width: 25px;
+    height: 25px;
 }
 
 header {
     display: flex;
-    flex-direction: row;
+    flex-direction: column;
     justify-content: space-between;
+    color: #091069;
+    margin-bottom: 2em;
+    mix-blend-mode: darken;
 }
 
-body {
-
+#logo {
+    display: flex;
+    flex-direction: row;
+    align-items: center;
 }
 
-main {
-    
+#hydrant {
+    height: 7em;
 }
 
 #app {
     display: flex;
+    flex-direction: column-reverse;
     justify-content: center;
 }
 
 #map {
     height: 25em;
-    width: 25em;
+    width: 100%;
     border-radius: 1em;
 }
 
 h1 {
-    font-size: 3em;
-    margin-top: auto;
-    margin-bottom: auto;
+    font-size: 3.75em;
+    margin: 0em;
+    margin-left: 0.2em;
 }
 
 h2 {
@@ -45,6 +67,47 @@ h2 {
     margin-bottom: auto;
 }
 
+#user-info {
+    text-align: right;
+}
+
 #user-info p {
+    text-align: right;
     margin-top: auto;
+}
+
+#list {
+    display: flex;
+    flex-direction: column;
+}
+
+@media (min-width: 768px) {
+
+    header {
+        flex-direction: row;
+    }
+
+    #app {
+        flex-direction: row;
+    }
+
+    #map {
+        width: 25em;
+    }
+
+    h1 {
+        font-size: 4em;
+    }
+}
+
+@media (min-width: 1024px) {
+    #map {
+        height: 40em;
+        width: 40em;
+    }
+
+    #cursor {
+        top: unset;
+        left: unset;
+    }
 }

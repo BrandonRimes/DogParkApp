@@ -57,13 +57,15 @@
 
 const vm = new Vue({
     el: '#app',
-    // delimiters: ['[[', ']]'],
+    delimiters: ['[[', ']]'],
     data: {
         pos: {},
         map: undefined,
-        parks: {},
+        parks: [],
         infoWindow: undefined,
         markers: [],
+        searchResults: [],
+        csrf_token: '',
     },
     methods: {
         getLocation: function () {
@@ -124,26 +126,48 @@ const vm = new Vue({
             console.log('findParks');
             const request = {
                 location: this.map.getCenter(),
-                radius: '1500',
+                radius: '9000',
                 type: ['park'],
                 keyword: 'dog',
             };
             service = new google.maps.places.PlacesService(map);
-            service.nearbySearch(request, callback);
-            function callback(results, status) {
+            service.nearbySearch(request, (results, status) => {
                 if (status == google.maps.places.PlacesServiceStatus.OK) {
-                    for (var i = 0; i < results.length; i++) {
-                        var lat = results[i].geometry.location.lat();
-                        var lng = results[i].geometry.location.lng();
-                        const marker = new google.maps.Marker({
-                            position: results[i].geometry.location,
-                            map: this.map,
-                        });
-                        // marker.setMap(map);
-                        console.log(marker);
-                    };
+                    this.searchResults = results;
+                    this.saveParks();
+                    this.loadParks();
                 }
-            };
+            })
+        },
+        saveParks: function () {
+            console.log('saveParks')
+            axios({
+                method: 'get',
+                url: '/apis/v1/'
+            }).then(response => {
+                this.parks = response.data
+                this.searchResults.forEach( park => {
+                    const parkObject = {
+                        place_id: park.place_id,
+                        title: park.name,
+                        lat: park.geometry.location.lat(),
+                        lng: park.geometry.location.lng(),
+                    }
+                    const parkIds = this.parks.map(park => park.place_id)
+                    if (!parkIds.includes(park.place_id)) {
+                        console.log(park.place_id, parkIds)
+                        axios({
+                            headers: {
+                                'X-CSRFToken': this.csrf_token
+                            },
+                            method: 'post',
+                            url: '/apis/v1/',
+                            data: parkObject,
+                        }).then(response => {
+                        })
+                    }
+                })
+            }).catch(error => console.log(error))
         },
         loadParks: function () {
             console.log('loadParks');
@@ -152,17 +176,27 @@ const vm = new Vue({
                 url: '/apis/v1/'
             }).then(response => {
                 this.parks = response.data
+                // this.parks.forEach( park => {
+                    
+                // })
+                this.addMarkers()
             }).catch(error => console.log(error))
         }, 
         addMarkers: function () {
             console.log('addMarkers')
             this.parks.forEach( park => {
-                new google.maps.Marker({
+                const marker = new google.maps.Marker({
                     position: {lat: park.lat, lng: park.lng},
                     map: this.map,
-                    name: park.title
+                    title: park.title,
                 });
-                marker.setMap(map);
+                const infowindow = new google.maps.InfoWindow({
+                    content: park.title,
+                });
+                marker.addListener("click", () => {
+                    infowindow.open(map, marker);
+                });
+                marker.setMap(this.map);
             })
         },
     },
@@ -173,6 +207,7 @@ const vm = new Vue({
     },
     mounted: function() {
         console.log('mounted')
+        this.csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value
     },
     watch: {
         pos: function() {
@@ -181,7 +216,6 @@ const vm = new Vue({
         map: function() {
             console.log('map watch')
             this.findParks()
-            this.loadParks()
         }
     }
 })
