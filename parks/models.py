@@ -1,10 +1,12 @@
 from django.db import models
 
 class Park(models.Model):
+    show = False
     place_id = models.TextField()
     title = models.CharField(max_length=50)
     lat = models.FloatField()
     lng = models.FloatField()
+    address = models.CharField(max_length=100)
 
     def __str__(self):
         return f'{self.title}'

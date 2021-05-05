@@ -81,14 +81,55 @@ h2 {
     flex-direction: column;
 }
 
+a {
+    cursor: none;
+}
+
+a:hover {
+    text-decoration: blink;
+    color: antiquewhite;
+    text-shadow: 0 0 7px #091069;
+    filter: drop-shadow(1px 1px 1px #091069);
+}
+
+.collapsible {
+    cursor: none;
+    background-color: transparent;
+    border: none;
+    font-family: averia serif libre;
+}
+
+.collapsible:hover {
+    transform: scale(1.25);
+    color: #091069;
+    text-shadow: 3px 3px 0px antiquewhite;
+}
+
+.fade-enter-active, .fade-leave-active {
+    transition: opacity .5s;
+}
+
+.fade-enter, .fade-leave-to {
+    opacity: 0;
+}
+
 @media (min-width: 768px) {
 
     header {
         flex-direction: row;
+        margin: 1em;
+    }
+
+    main {
+        margin-top: 3em;
     }
 
     #app {
         flex-direction: row;
+    }
+
+    #list {
+        margin-right: 3em;
     }
 
     #map {

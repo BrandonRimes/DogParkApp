@@ -1,1 +1,0 @@
-const GM_API_KEY = 'AIzaSyC0oMrMT02Hmgb1IbcvZrE1Cx7K_m75sZI'

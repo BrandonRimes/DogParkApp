@@ -66,6 +66,7 @@ const vm = new Vue({
         markers: [],
         searchResults: [],
         csrf_token: '',
+        show: false,
     },
     methods: {
         getLocation: function () {
@@ -152,6 +153,7 @@ const vm = new Vue({
                         title: park.name,
                         lat: park.geometry.location.lat(),
                         lng: park.geometry.location.lng(),
+                        address: park.vicinity,
                     }
                     const parkIds = this.parks.map(park => park.place_id)
                     if (!parkIds.includes(park.place_id)) {
@@ -176,9 +178,6 @@ const vm = new Vue({
                 url: '/apis/v1/'
             }).then(response => {
                 this.parks = response.data
-                // this.parks.forEach( park => {
-                    
-                // })
                 this.addMarkers()
             }).catch(error => console.log(error))
         }, 
@@ -216,6 +215,6 @@ const vm = new Vue({
         map: function() {
             console.log('map watch')
             this.findParks()
-        }
-    }
+        },
+    },
 })
