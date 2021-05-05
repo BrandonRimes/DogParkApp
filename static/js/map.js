@@ -1,60 +1,3 @@
-// let map, service, infoWindow;
-
-// function initMap() {
-//     if (navigator.geolocation) {
-//         navigator.geolocation.getCurrentPosition(
-//             (position) => {
-//                 const pos = {
-//                     lat: position.coords.latitude,
-//                     lng: position.coords.longitude,
-//                 };
-//                 infoWindow.setPosition(pos);
-//                 infoWindow.setContent("You are here");
-//                 infoWindow.open(map);
-//                 map.setCenter(pos);
-//             },
-//             () => {
-//                 handleLocationError(true, infoWindow, map.getCenter());
-//             }
-//         );
-//     } else {
-//         handleLocationError(false, infoWindow, map.getCenter());
-//     }
-//     map = new google.maps.Map(document.getElementById("map"), {
-//         center: { lat: 27.2621, lng: -80.2621 },
-//         zoom: 6,
-//     });
-//     var request = {
-//         location: map.getCenter(),
-//         radius: '1500',
-//         type: ['food']
-//     };
-//     service = new google.maps.places.PlacesService(map);
-//     service.nearbySearch(request, callback);
-//     infoWindow = new google.maps.InfoWindow();
-// }
-// function handleLocationError(browserHasGeolocation, infoWindow, pos) {
-//     infoWindow.setPosition(pos);
-//     infoWindow.setContent(
-//         browserHasGeolocation
-//             ? "Error: The Geolocation service failed."
-//             : "Error: Your browser doesn't support geolocation."
-//     );
-//     infoWindow.open(map);
-// }
-// function callback(results, status) {
-//     if (status == google.maps.places.PlacesServiceStatus.OK) {
-//         for (var i = 0; i < results.length; i++) {
-//             var marker = new google.maps.Marker({
-//                 position: results[i].geometry.location,
-//             });
-//             console.log(results[i].geometry.location)
-//             new google.maps.Marker(map.getCenter());
-//             marker.setMap(map);
-//         }
-//     }
-// }
-
 const vm = new Vue({
     el: '#app',
     delimiters: ['[[', ']]'],
@@ -66,7 +9,6 @@ const vm = new Vue({
         markers: [],
         searchResults: [],
         csrf_token: '',
-        show: false,
     },
     methods: {
         getLocation: function () {

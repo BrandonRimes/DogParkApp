@@ -36,30 +36,28 @@
     <main>
         <div id="app">
             <div id="list">
-                <div class="parkslisted" v-for="park in parks" :key="park.id">
+                <div class="parks-listed" v-for="park in parks" :key="park.id">
                     <hr>
-                    <div class="parklistview">
-                        <button v-on:click="show = !show" type="button" class="collapsible">
-                            <h3>[[ park.title ]]</h3>
-                        </button>
-                        <transition name="fade">
-                            <div v-if="show" class="parklistcontent">
-                                <p>[[ park.address ]]</p>
-                                <p>[[ park.place_id ]]</p>
-                                <p>[[ park.lat ]]</p>
-                                <p>[[ park.lng ]]</p>
-                            </div>
-                        </transition>
+                    {% comment %} <div class="park-view" id="park.id"> {% endcomment %}
+                    <a class="park-link" href="#park.id">
+                        <p>[[ park.id ]]</p>
+                        <h3>[[ park.title ]]</h3>
+                    </a>
+                    <div class="park-content">
+                        <p>[[ park.address ]]</p>
+                        <p>[[ park.place_id ]]</p>
+                        <p>[[ park.lat ]]</p>
+                        <p>[[ park.lng ]]</p>
                     </div>
+                    {% comment %} </div> {% endcomment %}
                     <hr>
                 </div>
             </div>
             <div id="map"></div>
         </div>
         <script src="{% static 'js/cursor.js' %}"></script>
-        <script src="{% static 'js/secrets.js' %}"></script>
+        <script src="{% static 'js/pete.js' %}"></script>
         <script src="{% static 'js/map.js' %}"></script>
-        {% comment %} <script src="{% static 'js/transitions.js' %}"></script> {% endcomment %}
     </main>
     <footer>
     </footer>
