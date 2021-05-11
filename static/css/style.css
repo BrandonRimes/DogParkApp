@@ -81,13 +81,9 @@ h2 {
     flex-direction: column;
 }
 
-.parks-listed {
-
-}
-
-/* .park-view {
+.park-view {
     background-color: transparent;
-} */
+}
 
 .park-link {
     text-decoration: none;
@@ -99,10 +95,81 @@ h2 {
     overflow: hidden;
     position: relative;
     background-color: transparent;
+    margin: 0em 1em;
 }
 
-.parks-listed:target .park-content {
-    max-height: 10em;
+.parks-listed:hover .park-content {
+    max-height: unset;
+}
+
+.parks-listed:hover h3 {
+    transform: scale(1.05);
+    text-shadow: 2px 2px 0px thistle;
+    transition: all 0.25s;
+}
+
+.posts-view {
+    max-height: 0;
+    overflow: hidden;
+    position: relative;
+}
+
+.park-chat:hover .posts-view {
+    max-height: 15em;
+    position: relative;
+    overflow: scroll;
+    margin-top: 1em;
+}
+
+.park-chat:hover .pc {
+    transform: scale(1.05) translateX(0.5em);
+    text-shadow: 2px 2px 0px thistle;
+    transition: all 0.25s;
+}
+
+h4 {
+    margin: 0em;
+}
+
+.pc {
+    color: #091069;
+    margin: 0em;
+}
+
+.post-title {
+    margin: 0.5em;
+}
+
+.post-body {
+    margin: 0.25em 0em;
+}
+
+.post-author, .post-date {
+    text-align: right;
+    margin: 0em;
+    font-size: 0.75em;
+}
+
+h3 {
+    margin: 0em 0.5em;
+    color: #091069;
+}
+
+hr {
+    margin: 0.25em 0em;
+    border-radius: 10em;
+}
+
+.hr-upper {
+    height: 10px;
+    border: 0;
+    box-shadow: inset 0px 10px 5px -12px rgba(0, 0, 100, 0.5);
+}
+
+.hr-lower {
+    height: 10px;
+    border: 0;
+    box-shadow: inset 0px -10px 5px -12px rgba(0, 0, 100, 0.5);
 }
 
 header a {
@@ -115,19 +182,6 @@ header a:hover {
     text-shadow: 0 0 7px #091069;
     filter: drop-shadow(1px 1px 1px #091069);
 }
-
-/* .collapsible {
-    cursor: none;
-    background-color: transparent;
-    border: none;
-    font-family: averia serif libre;
-}
-
-.collapsible:hover {
-    transform: scale(1.25);
-    color: #091069;
-    text-shadow: 3px 3px 0px antiquewhite;
-} */
 
 @media (min-width: 768px) {
 
@@ -146,6 +200,7 @@ header a:hover {
 
     #list {
         margin-right: 3em;
+        max-width: 20em;
     }
 
     #map {
@@ -162,9 +217,14 @@ header a:hover {
         height: 40em;
         width: 40em;
     }
-
+    
     #cursor {
         top: unset;
         left: unset;
+    }
+
+    .parks-listed:hover h3 {
+        transform: scale(1.5);
+        text-shadow: 2px 2px 0px thistle;
     }
 }

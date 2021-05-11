@@ -4,14 +4,22 @@ const vm = new Vue({
     data: {
         pos: {},
         map: undefined,
-        parks: [],
         infoWindow: undefined,
         markers: [],
         searchResults: [],
+        parks: [],
+        posts: [],
+        newPost: {
+            'park': '',
+            'title': '',
+            'author': '',
+            'body': '',
+        },
         csrf_token: '',
     },
     methods: {
         getLocation: function () {
+// request user location
             if (navigator.geolocation) {
                 navigator.geolocation.getCurrentPosition(
                     (position) => {
@@ -47,23 +55,18 @@ const vm = new Vue({
         },
         createMap: function () {
             console.log('createMap')            
-            // Create script tag, set attributes
             const script = document.createElement("script");
             script.src = `https://maps.googleapis.com/maps/api/js?key=${GM_API_KEY}&libraries=places&callback=initMap`;
             script.async = true;
 
-            // Attach callback function to `window` object
             window.initMap = function() {
                 console.log('window.initMap')
                 this.map = new google.maps.Map(document.getElementById("map"), {
                 center: this.pos,
                 zoom: 6,
                 });
-            // JS API is loaded and available
         };
-        
-            // Append 'script' element to 'head'
-            document.head.appendChild(script);
+        document.head.appendChild(script);
         },
         findParks: function () {
             console.log('findParks');
@@ -99,7 +102,6 @@ const vm = new Vue({
                     }
                     const parkIds = this.parks.map(park => park.place_id)
                     if (!parkIds.includes(park.place_id)) {
-                        console.log(park.place_id, parkIds)
                         axios({
                             headers: {
                                 'X-CSRFToken': this.csrf_token
@@ -120,9 +122,10 @@ const vm = new Vue({
                 url: '/apis/v1/'
             }).then(response => {
                 this.parks = response.data
+                console.log(this.parks)
                 this.addMarkers()
             }).catch(error => console.log(error))
-        }, 
+        },
         addMarkers: function () {
             console.log('addMarkers')
             this.parks.forEach( park => {
@@ -137,7 +140,18 @@ const vm = new Vue({
                 marker.addListener("click", () => {
                     infowindow.open(map, marker);
                 });
+                marker.setIcon('static/images/hydrant-icon.png');
                 marker.setMap(this.map);
+            })
+        },
+        createPost: function() {
+            axios({
+                method: 'post',
+                url: '/apis/v1/post/',
+                headers: {
+                    'X-CSRFToken': this.csrf_token
+                },
+                data: this.newPost
             })
         },
     },
@@ -149,6 +163,7 @@ const vm = new Vue({
     mounted: function() {
         console.log('mounted')
         this.csrf_token = document.querySelector('input[name="csrfmiddlewaretoken"]').value
+        this.newPost.author = document.querySelector('#user-id').value
     },
     watch: {
         pos: function() {

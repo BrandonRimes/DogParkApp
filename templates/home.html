@@ -15,6 +15,7 @@
 </head>
 <body>
     {% csrf_token %}
+    <input type="hidden" value="{{ user.username }}" id="user-id">
     <div id="cursor">
         <img id="ball" src="static/images/tennisballdraw.png">
     </div>
@@ -25,7 +26,7 @@
         </div>
         <div id="user-info">
             {% if user.is_authenticated %}
-            <h2>Welcome {{ user.username }}!</h2>
+            <h2>Welcome, {{ user.username }}!</h2>
             <p><a href="{% url 'logout' %}">Logout</a><p>
             {% else %}
             <h2>Welcome, Human!</h2>
@@ -35,24 +36,42 @@
     </header>
     <main>
         <div id="app">
+<!--List of parks, dropdowns, and park chats-->
             <div id="list">
                 <div class="parks-listed" v-for="park in parks" :key="park.id">
-                    <hr>
-                    {% comment %} <div class="park-view" id="park.id"> {% endcomment %}
-                    <a class="park-link" href="#park.id">
-                        <p>[[ park.id ]]</p>
+                    <hr class="hr-upper">
+                    <div class="park-view" v-bind:id="park.id">
                         <h3>[[ park.title ]]</h3>
-                    </a>
-                    <div class="park-content">
-                        <p>[[ park.address ]]</p>
-                        <p>[[ park.place_id ]]</p>
-                        <p>[[ park.lat ]]</p>
-                        <p>[[ park.lng ]]</p>
+                        <div class="park-content">
+                            <p>[[ park.address ]]</p>
+                            <div class="park-chat">
+                            <h4 class="pc">Park Chat<h4>
+                                <div class="posts-view">
+                                    <div class="new-post" v-bind:id="park.id">
+                                        <hr class="hr-upper">
+                                        <input type="text" placeholder="Title" v-model="newPost.title">
+                                        <br>
+                                        <textarea placeholder="Post" v-model="newPost.body"></textarea>
+                                        <br>
+                                        <button @click="createPost">Post</button>
+                                        <hr class="hr-lower">
+                                    </div>
+                                    <div class="posts-existing" v-for="post in park.posts" :key="post.id">
+                                        <div class="each-post" v-bind:id="post.id">
+                                            <p class="post-title">- [[ post.title ]] -</p>
+                                            <p class="post-body">[[ post.body ]]</p>
+                                            <p class="post-author">[[ post.author ]]</p>
+                                            <p class="post-date">[[ post.created ]]</p>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                    {% comment %} </div> {% endcomment %}
-                    <hr>
+                    <hr class="hr-lower">
                 </div>
             </div>
+<!--Display Map-->
             <div id="map"></div>
         </div>
         <script src="{% static 'js/cursor.js' %}"></script>

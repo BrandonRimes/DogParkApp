@@ -1,7 +1,6 @@
 from django.db import models
 
 class Park(models.Model):
-    show = False
     place_id = models.TextField()
     title = models.CharField(max_length=50)
     lat = models.FloatField()
@@ -11,8 +10,8 @@ class Park(models.Model):
     def __str__(self):
         return f'{self.title}'
 
-class Posts(models.Model):
-    park_id = models.TextField()
+class Post(models.Model):
+    park = models.ForeignKey(Park, on_delete=models.CASCADE, related_name='posts')
     title = models.CharField(max_length=111)
     body = models.TextField()
     author = models.ForeignKey('auth.User', on_delete=models.CASCADE)
@@ -20,7 +19,7 @@ class Posts(models.Model):
     updated = models.DateTimeField(auto_now=True)
 
     def __str__(self):
-        return self.title
+        return f'{self.title}'
     
     def get_absolute_url(self):
-        return reverse("parks:posts", args=(self.id,))
+        return reverse('parks:post', args=(self.id,))
